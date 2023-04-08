@@ -1,16 +1,23 @@
-import React from 'react'
-import { FlatList, View, Text } from 'react-native'
-import RepoItem from './RepoItem'
-import repositories from '../repositories/repos'
+import React, { useEffect } from 'react';
+import { FlatList, View, Text } from 'react-native';
+import RepoItem from './RepoItem';
+import UseRepositories from '../hook/UseRepositories';
 
 export default function Repolist() {
+
+  const { repoData } = UseRepositories();
+  
+
+  const listData = repoData ?
+  repoData.edges.map( item => item.node) : [];
+
   return (
     <FlatList
-        data={repositories}
-        ItemSeparatorComponent={ () => <View></View>}
-        renderItem={({item: repo}) => (
-            <RepoItem {...repo}></RepoItem>
-  )}
+      data={listData}
+      ItemSeparatorComponent={() => <View />}
+      renderItem={({ item: repo }) => (
+        <RepoItem {...repo} />
+      )}
     />
-    )
+  );
 }
